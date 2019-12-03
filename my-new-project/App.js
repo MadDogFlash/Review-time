@@ -1,34 +1,27 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+import Navigator from './routes/drawer';
+
+const getFonts = () => Font.loadAsync({
+  'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+  'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+});
 
 export default function App() {
-  const [name, setName] = useState('shaun');
-  const [person, setPerson] = useState({ name: 'mario', age: 40 });
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
-  const clickHandler = () => {
-    setName('chun-li');
-    setPerson({ name: 'luigi', age: 45 });
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text>My name is {name}</Text>
-      <Text>His name is {person.name} and his age is {person.age}</Text>
-      <View style={styles.buttonContainer}>
-        <Button title='update state' onPress={clickHandler} />  
-      </View>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    marginTop: 20,
+  if (fontsLoaded) {
+    return (
+      <Navigator />
+    );
+  } else {
+    return (
+      <AppLoading 
+        startAsync={getFonts} 
+        onFinish={() => setFontsLoaded(true)} 
+      />
+    )
   }
-});
+
+}
