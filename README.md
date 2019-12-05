@@ -9,4 +9,3 @@ Expo is a framework and a platform for universal React applications. It is a set
 
 # Review-time
 a app that showcases video game reviews 
-
