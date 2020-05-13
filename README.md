@@ -41,10 +41,7 @@ details
   
 ## Images 
 
--Splash Page
 ![alt text](https://developerdiaz.dev/img/portfolio-01.jpg)
--Main Page
 ![alt text](https://developerdiaz.dev/img/portfolio-details.jpg)
--About Page
 ![alt text](https://developerdiaz.dev/img/portfolio-details2.jpg)
 
