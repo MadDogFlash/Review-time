@@ -27,7 +27,11 @@ right before you start anything make sure you have Node.js which you can get her
 
     https://nodejs.org/en/
 
-got all that ? perfect ! now install the cli to expo 
+Run your terminal of choice! either the repo of the project or git. 
+
+Make sure you are in the correct location of review time and then open the terminal.
+
+install the cli to expo 
 
     npm install expo-cli --global
     
