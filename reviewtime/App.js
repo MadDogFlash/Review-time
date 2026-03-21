@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
-import { AppLoading } from 'expo';
+import * as SplashScreen from 'expo-splash-screen';
 import Navigator from './routes/drawer';
 
-const getFonts = () => Font.loadAsync({
-  'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
-  'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
-});
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [fontError, setFontError] = useState(null);
 
-  if (fontError) {
-    // Proceed without custom fonts if loading fails
-    return <Navigator />;
-  }
+  useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync({
+          'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+          'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+        });
+      } catch (e) {
+        console.warn('Font loading failed:', e);
+      } finally {
+        setFontsLoaded(true);
+        await SplashScreen.hideAsync();
+      }
+    }
+    loadFonts();
+  }, []);
 
-  if (fontsLoaded) {
-    return <Navigator />;
-  }
+  if (!fontsLoaded) return null;
 
-  return (
-    <AppLoading
-      startAsync={getFonts}
-      onFinish={() => setFontsLoaded(true)}
-      onError={(err) => setFontError(err)}
-    />
-  );
+  return <Navigator />;
 }

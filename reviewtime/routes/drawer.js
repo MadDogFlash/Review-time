@@ -1,18 +1,18 @@
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createAppContainer } from 'react-navigation';
-
-// stacks
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeStack from './homeStack';
 import AboutStack from './aboutStack';
 
-// drawer navigation options
-const RootDrawerNavigator = createDrawerNavigator({
-  Home: {
-    screen: HomeStack,
-  },
-  About: {
-    screen: AboutStack,
-  },
-});
+const Drawer = createDrawerNavigator();
 
-export default createAppContainer(RootDrawerNavigator);
+export default function Navigator() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
+        <Drawer.Screen name="About" component={AboutStack} options={{ headerShown: false }} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}

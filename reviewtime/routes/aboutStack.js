@@ -1,24 +1,25 @@
-import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 import Header from '../shared/header';
 import About from '../screens/about';
 
-const screens = {
-  About: {
-    screen: About,
-    navigationOptions: ({ navigation }) => {
-      return {
-        headerTitle: () => <Header title='About Flash510' navigation={navigation} />
-      }
-    },
-  },
-};
+const Stack = createStackNavigator();
 
-const AboutStack = createStackNavigator(screens, {
-  defaultNavigationOptions: {
-    headerTintColor: '#444',
-    headerStyle: { backgroundColor: '#eee', height: 60 },
-  }
-});
-
-export default AboutStack;
+export default function AboutStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerTintColor: '#444',
+        headerStyle: { backgroundColor: '#eee', height: 60 },
+      }}
+    >
+      <Stack.Screen
+        name="About"
+        component={About}
+        options={({ navigation }) => ({
+          headerTitle: () => <Header title="About Flash510" navigation={navigation} />,
+        })}
+      />
+    </Stack.Navigator>
+  );
+}

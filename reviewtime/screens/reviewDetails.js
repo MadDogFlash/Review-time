@@ -3,10 +3,8 @@ import { StyleSheet, View, Text, Image } from 'react-native';
 import { globalStyles, images } from '../styles/global';
 import Card from '../shared/card';
 
-export default function ReviewDetails({ navigation }) {
-  const title = navigation.getParam('title') || 'Untitled';
-  const body = navigation.getParam('body') || '';
-  const rating = navigation.getParam('rating');
+export default function ReviewDetails({ route }) {
+  const { title = 'Untitled', body = '', rating } = route.params || {};
   const ratingImage = rating && images.ratings[rating] ? images.ratings[rating] : null;
 
   return (
