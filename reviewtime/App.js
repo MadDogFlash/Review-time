@@ -10,18 +10,22 @@ const getFonts = () => Font.loadAsync({
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [fontError, setFontError] = useState(null);
 
-  if (fontsLoaded) {
-    return (
-      <Navigator />
-    );
-  } else {
-    return (
-      <AppLoading 
-        startAsync={getFonts} 
-        onFinish={() => setFontsLoaded(true)} 
-      />
-    )
+  if (fontError) {
+    // Proceed without custom fonts if loading fails
+    return <Navigator />;
   }
 
+  if (fontsLoaded) {
+    return <Navigator />;
+  }
+
+  return (
+    <AppLoading
+      startAsync={getFonts}
+      onFinish={() => setFontsLoaded(true)}
+      onError={(err) => setFontError(err)}
+    />
+  );
 }

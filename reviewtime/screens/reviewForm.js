@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Button, TextInput, View, Text } from 'react-native';
+import { StyleSheet, TextInput, View, Text } from 'react-native';
 import { globalStyles } from '../styles/global.js';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -15,7 +15,7 @@ const reviewSchema = yup.object({
   rating: yup.string()
     .required()
     .test('is-num-1-5', 'Rating must be a number 1 - 5', (val) => {
-      return parseInt(val) < 6 && parseInt(val) > 0;
+      return /^[1-5]$/.test(val);
     }),
 });
 

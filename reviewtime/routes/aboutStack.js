@@ -12,7 +12,7 @@ const screens = {
       }
     },
   },
-}
+};
 
 const AboutStack = createStackNavigator(screens, {
   defaultNavigationOptions: {

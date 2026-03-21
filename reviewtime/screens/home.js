@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal,
   TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { globalStyles } from '../styles/global';
@@ -8,6 +8,7 @@ import ReviewForm from './reviewForm';
 
 export default function Home({ navigation }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const nextKey = useRef(9);
   const [reviews, setReviews] = useState([
     { title: 'Death Stranding', rating: 5, body: 'Hideo Kojima returns in his brand new masterpiece debuting his brand new studio after the splinter from Konami. People can simplify this game as a Delivery Simulator but its more than that. Expect plenty of Kojima flair and some thought provoking post apocalyptic gameplay. I went in blind with barely any exposure to the trailers and I feel like you should too. so I will not reveal what this game is like, but I will say it is really comfortable playing in the rain with hot coco and blankets.', key: '1' },
     { title: 'The Outer Worlds', rating: 5, body: 'A spiritual successor to Fallout New Vegas comes this surprisingly wonderful RPG. New Vegas but in space is here and is a solid rpg shooter. A nice space aesthetic and good gun play solidifies this game in the upper echeleon of RPG Shooters. ', key: '2' },
@@ -20,10 +21,8 @@ export default function Home({ navigation }) {
   ]);
 
   const addReview = (review) => {
-    review.key = Math.random().toString();
-    setReviews((currentReviews) => {
-      return [review, ...currentReviews];
-    });
+    const newReview = { ...review, key: String(nextKey.current++) };
+    setReviews((currentReviews) => [newReview, ...currentReviews]);
     setModalOpen(false);
   };
 
@@ -33,11 +32,11 @@ export default function Home({ navigation }) {
       <Modal visible={modalOpen} animationType='slide'>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.modalContent}>
-            <MaterialIcons 
+            <MaterialIcons
               name='close'
-              size={24} 
-              style={{...styles.modalToggle, ...styles.modalClose}} 
-              onPress={() => setModalOpen(false)} 
+              size={24}
+              style={styles.modalCloseBtn}
+              onPress={() => setModalOpen(false)}
             />
             <ReviewForm addReview={addReview} />
           </View>
@@ -51,13 +50,17 @@ export default function Home({ navigation }) {
         onPress={() => setModalOpen(true)} 
       />
 
-      <FlatList data={reviews} renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => navigation.navigate('ReviewDetails', item)}>
-          <Card>
-            <Text style={globalStyles.titleText}>{ item.title }</Text>
-          </Card>
-        </TouchableOpacity>
-      )} />
+      <FlatList
+        data={reviews}
+        keyExtractor={(item) => item.key}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => navigation.navigate('ReviewDetails', item)}>
+            <Card>
+              <Text style={globalStyles.titleText}>{item.title}</Text>
+            </Card>
+          </TouchableOpacity>
+        )}
+      />
 
     </View>
   );
@@ -74,9 +77,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: 'center',
   },
-  modalClose: {
+  modalCloseBtn: {
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 20,
     marginBottom: 0,
+    borderWidth: 1,
+    borderColor: '#f2f2f2',
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'center',
   },
   modalContent: {
     flex: 1,

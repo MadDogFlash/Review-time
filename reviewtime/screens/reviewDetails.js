@@ -4,18 +4,19 @@ import { globalStyles, images } from '../styles/global';
 import Card from '../shared/card';
 
 export default function ReviewDetails({ navigation }) {
+  const title = navigation.getParam('title') || 'Untitled';
+  const body = navigation.getParam('body') || '';
   const rating = navigation.getParam('rating');
-  
+  const ratingImage = rating && images.ratings[rating] ? images.ratings[rating] : null;
+
   return (
     <View style={globalStyles.container}>
       <Card>
-        <Text style={globalStyles.titleText}>
-          { navigation.getParam('title') }
-        </Text>
-        <Text>{ navigation.getParam('body') }</Text>
+        <Text style={globalStyles.titleText}>{title}</Text>
+        <Text>{body}</Text>
         <View style={styles.rating}>
           <Text>Flash510s rating: </Text>
-          <Image source={images.ratings[rating]} />
+          {ratingImage && <Image source={ratingImage} />}
         </View>
       </Card>
     </View>
